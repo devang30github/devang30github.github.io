@@ -963,4 +963,35 @@ section {
     }
 }
 
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(10, 10, 10, 0.95);
+    width: 100%;
+    padding: 1rem 2rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
 

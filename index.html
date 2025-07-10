@@ -20,6 +20,9 @@
     <header>
         <nav class="container">
             <div class="logo glitch">Neural Systems</div>
+
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -46,7 +49,7 @@
                     </div>
                     <div class="robot-body">
                         <div class="robot-chest">
-                            <img src="images/myself.png" alt="Devang Gawade" class="robot-photo">
+                            <img src="images/devang_gpt.png" alt="Devang Gawade" class="robot-photo">
                         </div>
                     </div>
                     <div class="robot-arms">
@@ -373,6 +376,9 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
         // Loading Animation
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');

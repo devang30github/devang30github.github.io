@@ -1,563 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devang Gawade - AI Robotics Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css"> </head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devang Gawade — AI / ML Engineer</title>
+<meta name="description" content="Devang Gawade — AI/ML Engineer specializing in LLM applications, retrieval-augmented generation, and production ML systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#f5f5f2;
+  --bg-alt:#eceae4;
+  --surface:#ffffff;
+  --surface-2:#f0efe9;
+  --line:#dcdad2;
+  --ink:#14161c;
+  --ink-dim:#55596a;
+  --ink-faint:#8a8d99;
+  --accent:#ffb454;
+  --accent-soft:rgba(255,180,84,0.14);
+  --accent-2:#7ee0c3;
+  --accent-2-soft:rgba(126,224,195,0.14);
+  --danger:#ff7a7a;
+
+  --display:'Space Grotesk', sans-serif;
+  --body:'IBM Plex Sans', sans-serif;
+  --mono:'IBM Plex Mono', monospace;
+
+  --maxw:1180px;
+  --radius:10px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+ul{list-style:none;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+/* background texture */
+.bg-grid{
+  position:fixed;inset:0;z-index:-2;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:64px 64px;
+  opacity:0.35;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+.bg-glow{
+  position:fixed;top:-10%;right:-10%;width:50vw;height:50vw;z-index:-1;
+  background:radial-gradient(circle, rgba(255,180,84,0.08), transparent 65%);
+  pointer-events:none;
+}
+
+/* ============ LOADER ============ */
+.loading-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .5s ease;
+}
+.loader-text{
+  font-family:var(--mono);
+  color:var(--ink-dim);
+  font-size:0.95rem;
+  display:flex;align-items:center;gap:10px;
+}
+.loader-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1s infinite ease-in-out;}
+.loader-dot:nth-child(2){animation-delay:.15s;}
+.loader-dot:nth-child(3){animation-delay:.3s;}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(0.8);}40%{opacity:1;transform:scale(1);}}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(245,245,242,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+header nav{
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;
+}
+.logo{
+  font-family:var(--mono);
+  font-size:1.05rem;
+  font-weight:500;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.logo .dot{color:var(--accent);}
+.nav-links{display:flex;gap:2rem;}
+.nav-links a{
+  font-size:0.9rem;color:var(--ink-dim);
+  transition:color .2s ease;
+  position:relative;
+}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--accent);
+  transition:width .25s ease;
+}
+.nav-links a:hover::after{width:100%;}
+.menu-toggle{
+  display:none;background:none;border:1px solid var(--line);color:var(--ink);
+  width:38px;height:38px;border-radius:6px;font-size:1rem;
+}
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding-top:100px;padding-bottom:60px;
+}
+.hero .container{
+  display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;
+}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:0.8rem;
+  color:var(--accent);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:1.4rem;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--accent);}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(2.4rem, 5vw, 3.6rem);
+  font-weight:600;
+  line-height:1.08;
+  letter-spacing:-0.02em;
+  margin-bottom:1.3rem;
+}
+.hero h1 .accent-word{color:var(--accent);}
+.hero p.lede{
+  font-size:1.08rem;color:var(--ink-dim);max-width:520px;margin-bottom:2.2rem;
+}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0.85rem 1.5rem;border-radius:8px;
+  font-size:0.92rem;font-weight:500;
+  border:1px solid transparent;
+  transition:transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.btn-primary{background:var(--accent);color:#0b0d12;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{border-color:var(--line);color:var(--ink);}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+
+/* --- signature element: retrieval demo card --- */
+.retrieval-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:1.4rem;
+  font-family:var(--mono);
+  box-shadow:0 20px 40px -25px rgba(0,0,0,0.15);
+}
+.retrieval-card .rc-head{
+  display:flex;align-items:center;gap:8px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line);
+}
+.rc-dot{width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
+.rc-title{font-size:0.78rem;color:var(--ink-faint);letter-spacing:0.05em;}
+.rc-query{
+  font-size:0.85rem;color:var(--ink);background:var(--bg-alt);
+  border:1px solid var(--line);border-radius:6px;padding:0.6rem 0.8rem;margin-bottom:1rem;
+}
+.rc-query span{color:var(--accent);}
+.rc-chunks{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;}
+.rc-chunk{
+  font-size:0.78rem;line-height:1.5;color:var(--ink-dim);
+  background:var(--bg-alt);border:1px solid var(--line);border-radius:6px;
+  padding:0.55rem 0.7rem;
+  position:relative;overflow:hidden;
+}
+.rc-chunk .score{
+  float:right;color:var(--ink-faint);font-size:0.7rem;
+}
+.rc-chunk.active{
+  color:var(--ink);border-color:var(--accent);background:var(--accent-soft);
+}
+.rc-chunk.active .score{color:var(--accent);}
+.rc-answer{
+  font-size:0.8rem;color:var(--accent-2);background:var(--accent-2-soft);
+  border:1px solid rgba(126,224,195,0.3);border-radius:6px;padding:0.6rem 0.8rem;
+  min-height:2.4em;
+}
+.rc-cursor{display:inline-block;width:6px;height:1em;background:var(--accent-2);vertical-align:middle;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ============ SECTION SHARED ============ */
+section{padding:110px 0;}
+.section-head{margin-bottom:3rem;}
+.section-title{
+  font-family:var(--display);
+  font-size:clamp(1.8rem,3vw,2.4rem);
+  font-weight:600;letter-spacing:-0.01em;
+}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:2rem;
+}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid;grid-template-columns:1fr;gap:2rem;}
+.about-lede{font-size:1.1rem;line-height:1.8;color:var(--ink-dim);max-width:760px;}
+.about-lede strong{color:var(--ink);font-weight:500;}
+.stat-row{display:flex;gap:3.5rem;margin-top:2.5rem;flex-wrap:wrap;}
+.stat-num{
+  font-family:var(--mono);font-size:2.4rem;font-weight:600;color:var(--accent);
+}
+.stat-label{font-size:0.8rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.3rem;}
+
+/* ============ EXPERIENCE ============ */
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line);}
+.tl-item{position:relative;padding-bottom:2.6rem;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{
+  content:'';position:absolute;left:-2rem;top:6px;width:9px;height:9px;margin-left:-4px;
+  border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg), 0 0 0 5px var(--line);
+}
+.tl-role{font-family:var(--display);font-size:1.25rem;font-weight:600;color:var(--ink);}
+.tl-org{color:var(--accent-2);font-size:0.98rem;margin-top:0.15rem;}
+.tl-date{
+  font-family:var(--mono);font-size:0.78rem;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:0.06em;display:block;margin-top:0.3rem;margin-bottom:0.9rem;
+}
+.tl-list li{
+  color:var(--ink-dim);font-size:0.95rem;margin-bottom:0.5rem;padding-left:1.1rem;position:relative;
+}
+.tl-list li::before{content:'—';position:absolute;left:0;color:var(--ink-faint);}
+
+/* ============ EDUCATION ============ */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;}
+.edu-degree{font-family:var(--display);font-size:1.15rem;font-weight:600;}
+.edu-uni{color:var(--accent-2);font-size:0.95rem;margin-top:0.2rem;}
+.edu-duration{font-family:var(--mono);font-size:0.78rem;color:var(--ink-faint);display:block;margin:0.4rem 0 0.9rem;}
+.edu-notes{color:var(--ink-dim);font-size:0.92rem;}
+
+/* ============ SKILLS ============ */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.25rem;}
+.skill-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.6rem;transition:border-color .2s ease, transform .2s ease;
+}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.skill-icon{
+  width:38px;height:38px;border-radius:8px;background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:1rem;
+}
+.skill-card h3{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;}
+.skill-card p{color:var(--ink-dim);font-size:0.87rem;line-height:1.55;}
+
+/* ============ PROJECTS ============ */
+.project-filters{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2.2rem;}
+.filter-btn{
+  background:transparent;border:1px solid var(--line);color:var(--ink-dim);
+  padding:0.5rem 1rem;border-radius:20px;font-size:0.82rem;transition:all .2s ease;
+}
+.filter-btn:hover{color:var(--ink);border-color:var(--ink-faint);}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#0b0d12;}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.6rem;}
+.project-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;transition:border-color .2s ease, transform .2s ease;
+}
+.project-card:hover{border-color:var(--accent-2);transform:translateY(-4px);}
+.project-img{aspect-ratio:16/10;background:var(--bg-alt);overflow:hidden;}
+.project-img img{width:100%;height:100%;object-fit:cover;}
+.project-info{padding:1.5rem;}
+.project-info h3{font-family:var(--display);font-size:1.1rem;font-weight:600;margin-bottom:0.6rem;}
+.project-info p{color:var(--ink-dim);font-size:0.88rem;margin-bottom:1rem;}
+.project-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.2rem;}
+.project-tags span{
+  font-family:var(--mono);font-size:0.7rem;color:var(--accent-2);
+  background:var(--accent-2-soft);padding:0.25rem 0.6rem;border-radius:4px;
+}
+.project-links{display:flex;gap:1.2rem;border-top:1px solid var(--line);padding-top:1rem;}
+.project-link{font-size:0.82rem;color:var(--ink-dim);display:flex;align-items:center;gap:0.4rem;transition:color .2s ease;}
+.project-link:hover{color:var(--accent);}
+
+/* ============ CERTIFICATIONS ============ */
+.cert-list{display:flex;flex-direction:column;}
+.cert-item{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;
+  padding:1.3rem 0;border-bottom:1px solid var(--line);
+}
+.cert-item:last-child{border-bottom:none;}
+.cert-name{font-family:var(--display);font-size:1.02rem;font-weight:600;}
+.cert-platform{color:var(--ink-dim);font-size:0.85rem;margin-top:0.2rem;}
+.cert-date{font-family:var(--mono);font-size:0.75rem;color:var(--ink-faint);margin-top:0.3rem;display:block;}
+.cert-link{
+  font-size:0.82rem;color:var(--accent);border:1px solid var(--line);padding:0.5rem 0.9rem;border-radius:6px;
+  display:flex;align-items:center;gap:0.4rem;transition:border-color .2s ease;
+}
+.cert-link:hover{border-color:var(--accent);}
+
+/* ============ CONTACT ============ */
+.contact-inner{text-align:center;max-width:600px;margin:0 auto;}
+.contact-inner p{color:var(--ink-dim);font-size:1.05rem;margin-top:1rem;margin-bottom:2.6rem;}
+.contact-details{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-bottom:2.4rem;}
+.contact-item{text-align:left;}
+.contact-item i{color:var(--accent);margin-bottom:0.5rem;font-size:1.1rem;}
+.contact-item strong{display:block;font-size:0.78rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.06em;margin:0.4rem 0 0.2rem;}
+.contact-item p{margin:0;color:var(--ink);font-size:0.95rem;}
+.social-links{display:flex;justify-content:center;gap:1rem;}
+.social-icon{
+  width:42px;height:42px;border:1px solid var(--line);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;color:var(--ink-dim);
+  transition:all .2s ease;
+}
+.social-icon:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+
+footer{padding:2.2rem 0;text-align:center;border-top:1px solid var(--line);}
+footer p{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);}
+
+/* section eyebrow alt spacing fix */
+.section-head .eyebrow{margin-bottom:0.8rem;}
+
+/* ============ ANIMATION UTIL ============ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .hero .container{grid-template-columns:1fr;}
+  .retrieval-card{order:-1;max-width:480px;}
+}
+@media (max-width:768px){
+  .menu-toggle{display:block;}
+  .nav-links{
+    position:fixed;top:68px;left:0;right:0;background:var(--bg-alt);
+    flex-direction:column;padding:1.5rem 24px;gap:1.2rem;
+    border-bottom:1px solid var(--line);
+    transform:translateY(-120%);transition:transform .3s ease;
+  }
+  .nav-links.active{transform:translateY(0);}
+  section{padding:70px 0;}
+  .stat-row{gap:2rem;}
+  .contact-details{gap:2rem;}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+}
+
+:root{
+--bg:#f4f1ea;
+--bg-alt:#ece7dc;
+--surface:#fbf9f4;
+--surface-2:#f0ece2;
+--line:#ddd6c7;
+--ink:#211f1a;
+--ink-dim:#5a5648;
+--ink-faint:#938d7a;
+--accent:#b5651d;
+--accent-2:#3c7a5f;
+}
+
+</style>
+</head>
 <body>
-    <div class="loading-overlay" id="loading">
-        <div class="loading-robot"></div>
+
+<div class="loading-overlay" id="loading">
+  <div class="loader-text">retrieving context<span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></div>
+</div>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<header>
+  <nav class="container">
+    <div class="logo">devang<span class="dot">.</span>ai</div>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="eyebrow">AI / ML Engineer</div>
+      <h1>I build systems that <span class="accent-word">read, retrieve,</span> and reason.</h1>
+      <p class="lede">I design and ship production LLM applications — retrieval pipelines, multi-agent workflows, and automation tools that turn unstructured data into decisions. Currently chasing a 9.6 CGPA into real-world impact.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in touch</a>
+        <a href="#projects" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> See the work</a>
+      </div>
     </div>
 
-    <div class="bg-animation"></div>
-    <div class="grid-pattern"></div>
+    <div class="retrieval-card" aria-hidden="true">
+      <div class="rc-head">
+        <span class="rc-dot"></span><span class="rc-dot"></span><span class="rc-dot"></span>
+        <span class="rc-title" style="margin-left:6px;">rag_pipeline.query()</span>
+      </div>
+      <div class="rc-query">query: <span>"what does devang work on?"</span></div>
+      <div class="rc-chunks" id="rcChunks">
+        <div class="rc-chunk" data-score="0.61">Bachelor's in Computer Science, Mumbai University — 9.6 CGPA.<span class="score">0.61</span></div>
+        <div class="rc-chunk" data-score="0.94">Builds RAG pipelines, multi-agent systems, and fine-tuned LLM apps.<span class="score">0.94</span></div>
+        <div class="rc-chunk" data-score="0.58">Based in Mumbai, India. Open to AI/ML roles.<span class="score">0.58</span></div>
+      </div>
+      <div class="rc-answer" id="rcAnswer"></div>
+    </div>
+  </div>
+</section>
 
-    <header>
-        <nav class="container">
-            <div class="logo glitch">Neural Systems</div>
+<section id="about" class="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Field notes</div>
+      <h2 class="section-title">About</h2>
+    </div>
+    <div class="card reveal">
+      <p class="about-lede">
+        I'm an <strong>AI/ML engineer</strong> who likes making messy, unstructured data behave. My work spans <strong>generative AI</strong>, <strong>retrieval-augmented generation</strong>, and applied deep learning — with real implementations in voice-based AI interfaces, intelligent resume screening, and workflow automation. I care about systems that are fast, explainable, and actually ship.
+      </p>
+      <div class="stat-row">
+        <div><div class="stat-num">1+</div><div class="stat-label">Years Active</div></div>
+        <div><div class="stat-num">10+</div><div class="stat-label">Systems Shipped</div></div>
+        <div><div class="stat-num">5+</div><div class="stat-label">Certifications</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<section id="experience" class="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Where I've worked</div>
+      <h2 class="section-title">Experience</h2>
+    </div>
 
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#certifications">Certifications</a></li> 
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <h3 class="tl-role">AI/ML Intern</h3>
+        <div class="tl-org">Gray Matrix Solutions</div>
+        <span class="tl-date">Oct 2025 – Jan 2026</span>
+        <ul class="tl-list">
+          <li>Designed a cloud-native generative AI pipeline to identify, cluster, and surface high-frequency customer questions for enterprise chatbots.</li>
+          <li>Implemented semantic embedding-based clustering with incremental updates, enabling stateless processing and reducing recomputation overhead.</li>
+          <li>Built an AWS S3-backed architecture to persist embeddings and cluster states, supporting scalable reprocessing across chatbot sessions, with LLM-based refinement to produce final questions.</li>
+        </ul>
+      </div>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="robot-container">
-                <div class="robot">
-                    <div class="robot-head">
-                        <div class="robot-eyes">
-                            <div class="robot-eye"></div>
-                            <div class="robot-eye"></div>
-                        </div>
-                    </div>
-                    <div class="robot-body">
-                        <div class="robot-chest">
-                            <img src="images/devang_gpt.png" alt="Devang Gawade" class="robot-photo">
-                        </div>
-                    </div>
-                    <div class="robot-arms">
-                        <div class="robot-arm left"></div>
-                        <div class="robot-arm right"></div>
-                    </div>
-                </div>
-                <div class="circuit-lines">
-                    <div class="circuit-line horizontal" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
-                    <div class="circuit-line vertical" style="top: 30%; right: 20%; animation-delay: 0.5s;"></div>
-                    <div class="circuit-line horizontal" style="bottom: 20%; left: 30%; animation-delay: 1s;"></div>
-                    <div class="circuit-line vertical" style="bottom: 10%; right: 40%; animation-delay: 1.5s;"></div>
-                </div>
-            </div>
-            <div class="hero-content">
-                <h1><span class="highlight">Devang Gawade</span></h1>
-                <h2>AI ML Developer</h2>
-                <p>Architecting intelligent systems that learn, adapt, and evolve. Specializing in LLM applications , neural networks, machine learning algorithms, and autonomous AI solutions.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn primary-btn">Initialize Contact</a>
-                    <a href="#projects" class="btn secondary-btn">View Systems</a>
-                </div>
-            </div>
-            
+      <div class="tl-item reveal">
+        <h3 class="tl-role">AI/ML Intern</h3>
+        <div class="tl-org">Mettler-Toledo GBSI</div>
+        <span class="tl-date">Jan 2025 – Oct 2025</span>
+        <ul class="tl-list">
+          <li>Developed Python automation scripts for AI-related projects and data extraction systems.</li>
+          <li>Built a sales data analysis tool with variance calculation and performance driver identification.</li>
+          <li>Integrated analysis systems with LLMs for automated commentary generation.</li>
+          <li>Applied LLM fine-tuning techniques to meet evolving project requirements.</li>
+          <li>Used CrewAI, AGNO, and LangChain to build and orchestrate agent-based systems.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="education">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Academics</div>
+      <h2 class="section-title">Education</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="card reveal">
+        <h3 class="edu-degree">B.Sc. Computer Science</h3>
+        <div class="edu-uni">Mumbai University, Mumbai, India</div>
+        <span class="edu-duration">Jul 2022 – May 2025</span>
+        <p class="edu-notes">Graduated with a 9.6 CGPA, focusing on Data Structures & Algorithms, Software Engineering, Database Management, and Computer Networks. Coursework included Python, Java, Web Development, AI, and Machine Learning.</p>
+      </div>
+      <div class="card reveal">
+        <h3 class="edu-degree">HSC (Science)</h3>
+        <div class="edu-uni">Sathaye College, Mumbai</div>
+        <span class="edu-duration">Sep 2020 – Mar 2022</span>
+        <p class="edu-notes">Completed Higher Secondary Certificate with 65.6% marks, studying Physics, Chemistry, Biology, and Mathematics — building a foundation in analytical thinking and problem-solving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Toolkit</div>
+      <h2 class="section-title">Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-layer-group"></i></div>
+        <h3>Generative AI</h3>
+        <p>Multi-agent systems, RAG architecture, LLM fine-tuning, prompt engineering.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-brain"></i></div>
+        <h3>Deep Learning</h3>
+        <p>Neural networks, CNNs, RNNs, transformers, computer vision.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Machine Learning</h3>
+        <p>Supervised & unsupervised learning, reinforcement learning, MLOps.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-database"></i></div>
+        <h3>Data Systems</h3>
+        <p>Vector databases, SQL, MongoDB, data pipeline architecture.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-code"></i></div>
+        <h3>Programming</h3>
+        <p>Python, JavaScript, React, Flask, PyTorch, TensorFlow.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon"><i class="fas fa-cloud"></i></div>
+        <h3>Cloud & DevOps</h3>
+        <p>Azure, Docker, CI/CD, distributed systems.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Selected work</div>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="project-filters reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="genai">Generative AI</button>
+      <button class="filter-btn" data-filter="ml">Machine Learning</button>
+      <button class="filter-btn" data-filter="wd">Web Systems</button>
+    </div>
+    <div class="projects-grid">
+
+        <div class="project-card reveal" data-category="genai">
+        <div class="project-img"><img src="images/propmt.png" alt="Agentic Prompt Optimizer"></div>
+        <div class="project-info">
+          <h3>APO</h3>
+          <p>A multi-agent system that transforms raw developer intent into production-grade, security-hardened LLM prompts and a Committee of Expert Agents.</p>
+          <div class="project-tags"><span>FastAPI</span><span>AgentScope</span><span>Groq</span><span>Agents</span></div>
+          <div class="project-links">
+            <a href="https://github.com/devang30github/agentic-prompt-optimizer" class="project-link"><i class="fab fa-github"></i> Source</a>
+            <a href="https://agentic-prompt-optimizer.onrender.com/" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">System Analysis</h2>
-            <div class="card">
-                <p style="font-size: 1.2rem; line-height: 1.8; text-align: center; margin-bottom: 2rem;">
-                    I'm a neural network architect developing intelligent systems that can learn, adapt, and solve complex computational problems. My expertise spans generative AI, deep learning architectures, and autonomous system design, with practical implementations in voice-based AI interfaces, intelligent screening systems, and process automation.
-                </p>
-                <div style="display: flex; justify-content: center; gap: 4rem; margin-top: 3rem;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 3rem; color: var(--primary-color); font-family: 'Orbitron', monospace; font-weight: 900; text-shadow: 0 0 20px var(--primary-color);">1+</div>
-                        <div style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Years Active</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 3rem; color: var(--secondary-color); font-family: 'Orbitron', monospace; font-weight: 900; text-shadow: 0 0 20px var(--secondary-color);">10+</div>
-                        <div style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Systems Built</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 3rem; color: var(--accent-color); font-family: 'Orbitron', monospace; font-weight: 900; text-shadow: 0 0 20px var(--accent-color);">5+</div>
-                        <div style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Certifications</div>
-                    </div>
-                </div>
-            </div>
+      <div class="project-card reveal" data-category="genai">
+        <div class="project-img"><img src="images/mockmate.jpg" alt="MockMate AI mock interview platform"></div>
+        <div class="project-info">
+          <h3>MockMate</h3>
+          <p>An agentic AI system that reads a candidate's resume to generate personalized interview questions, with real-time speech processing and detailed performance evaluation.</p>
+          <div class="project-tags"><span>Flask</span><span>LangChain</span><span>Vector DB</span><span>Speech AI</span></div>
+          <div class="project-links">
+            <a href="https://github.com/devang30github/MockMate" class="project-link"><i class="fab fa-github"></i> Source</a>
+            <a href="https://drive.google.com/file/d/14dHnElBL7g0ueTazeUjaITEPVZEQWCnI/view" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Neural Network History</h2>
-
-            <div class="card">
-                <div style="border-left: 3px solid var(--primary-color); padding-left: 2rem; margin-left: 1rem;">
-                    <h3 style="font-family: 'Orbitron', monospace; font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem;">AI/ML Intern</h3>
-                    <h4 style="color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.5rem;">Gray Matrix Solutions</h4>
-                    <span style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Oct 2025 – Jan 2026</span>
-                    <div style="margin-top: 1rem; line-height: 1.6;">
-                        <div style="margin-bottom: 0.5rem;">• Designed a cloud-native Generative AI pipeline to automatically identify, cluster, and surface high-frequency customer questions for enterprise chatbots.</div>
-                        <div style="margin-bottom: 0.5rem;">• Implemented semantic embedding–based clustering with incremental updates, enabling stateless processing and reducing recomputation overhead.</div>
-                        <div style="margin-bottom: 0.5rem;">• Built an AWS S3–backed architecture to persist embeddings and cluster states, supporting scalable reprocessing across chatbot sessions. Applied LLM-based refinement to clean and produce final questions</div>
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div style="border-left: 3px solid var(--primary-color); padding-left: 2rem; margin-left: 1rem;">
-                    <h3 style="font-family: 'Orbitron', monospace; font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem;">AI/ML Intern</h3>
-                    <h4 style="color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.5rem;">Mettler-Toledo GBSI</h4>
-                    <span style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Jan 2025 – Oct 2025</span>
-                    <div style="margin-top: 1rem; line-height: 1.6;">
-                        <div style="margin-bottom: 0.5rem;">• Developed Python automation scripts for AI-related projects and data extraction systems</div>
-                        <div style="margin-bottom: 0.5rem;">• Created sales data analysis tool with variance calculation and performance driver identification</div>
-                        <div style="margin-bottom: 0.5rem;">• Integrated analysis systems with Large Language Models for automated commentary generation</div>
-                        <div style="margin-bottom: 0.5rem;">• Mastered LLM fine-tuning techniques for enhanced project requirements</div>
-                        <div style="margin-bottom: 0.5rem;">• Utilized CrewAI, AGNO, and LangChain technologies for system development</div>
-                        <div style="margin-bottom: 0.5rem;">• Enhanced critical thinking and collaborative problem-solving capabilities</div>
-                    </div>
-                </div>
-            </div>
-
+      <div class="project-card reveal" data-category="genai">
+        <div class="project-img"><img src="images/resume.jpg" alt="Resume screening system"></div>
+        <div class="project-info">
+          <h3>Resume Screening Engine</h3>
+          <p>A document analysis system using NLP models and semantic embeddings for automated candidate ranking, with multi-format parsing and real-time comparison.</p>
+          <div class="project-tags"><span>NLP</span><span>Streamlit</span><span>GROQ API</span><span>Transformers</span></div>
+          <div class="project-links">
+            <a href="https://github.com/devang30github/RESUME-RANKING-SYSTEM" class="project-link"><i class="fab fa-github"></i> Source</a>
+            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section id="education" class="education">
-        <div class="container">
-            <h2 class="section-title">Academic Protocols</h2>
-            <div class="card">
-                <div class="education-item">
-                    <h3 class="education-degree">Bachelor of Science in Computer Science</h3>
-                    <h4 class="education-university">Mumbai University (Mumbai, India)</h4>
-                    <span class="education-duration">July 2022 – May 2025</span>
-                    <p class="education-notes">
-                        Graduated with 9.6 CGPA, focusing on advanced topics in Data Structures and Algorithms, Software Engineering, Database Management Systems and Computer Networks. Key coursework included Programming (Java, Python), Web Development, Artificial Intelligence, and Machine Learning..
-                    </p>
-                </div>
-                <div class="education-item">
-                    <h3 class="education-degree">HSC</h3>
-                    <h4 class="education-university">Sathaye College Mumbai</h4>
-                    <span class="education-duration">September 2020 – March 2022</span>
-                    <p class="education-notes">
-                        Completed Higher Secondary Certificate (HSC) with a Science stream, achieving 65.6% marks. Studied core science subjects including Physics, Chemistry, Biology, and Mathematics, developing a strong foundation in analytical thinking and problem-solving.
-                    </p>
-                </div>
-            </div>
+      <div class="project-card reveal" data-category="ml">
+        <div class="project-img"><img src="images/bird.jpg" alt="Bird species classifier"></div>
+        <div class="project-info">
+          <h3>Bird Species Classifier</h3>
+          <p>A computer vision model for automated species identification across 200+ bird classes, built on DenseNet121 with GPU-accelerated training reaching 75% accuracy.</p>
+          <div class="project-tags"><span>PyTorch</span><span>CNN</span><span>Computer Vision</span><span>Deep Learning</span></div>
+          <div class="project-links">
+            <a href="https://github.com/devang30github/Bird_Species_Classification" class="project-link"><i class="fab fa-github"></i> Source</a>
+            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Neural Capabilities</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-robot"></i></div>
-                    <h3>Generative AI</h3>
-                    <p>Multi-Agent Systems, RAG Architecture, LLM Fine-tuning, Prompt Engineering</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-brain"></i></div>
-                    <h3>Deep Learning</h3>
-                    <p>Neural Networks, CNN, RNN, Transformers, Computer Vision</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Machine Learning</h3>
-                    <p>Supervised/Unsupervised Learning, Reinforcement Learning, MLOps</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-database"></i></div>
-                    <h3>Data Systems</h3>
-                    <p>Vector Databases, SQL, MongoDB, Data Pipeline Architecture</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-code"></i></div>
-                    <h3>Programming</h3>
-                    <p>Python, JavaScript, React, Flask, PyTorch, TensorFlow</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-cloud"></i></div>
-                    <h3>Cloud & DevOps</h3>
-                    <p>Azure, Docker, CI/CD, Distributed Systems</p>
-                </div>
-            </div>
+      <div class="project-card reveal" data-category="wd">
+        <div class="project-img"><img src="images/gym.jpg" alt="Gym management platform"></div>
+        <div class="project-info">
+          <h3>GymPro Management System</h3>
+          <p>A full-stack fitness management platform with personalized workout planning, progress analytics, and real-time membership management.</p>
+          <div class="project-tags"><span>React</span><span>Node.js</span><span>MongoDB</span><span>Express</span></div>
+          <div class="project-links">
+            <a href="https://github.com/devang30github/LocalGymWebsite" class="project-link"><i class="fab fa-github"></i> Source</a>
+            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">AI System Portfolio</h2>
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">All Systems</button>
-                <button class="filter-btn" data-filter="genai">Generative AI</button>
-                <button class="filter-btn" data-filter="ml">Machine Learning</button>
-                <button class="filter-btn" data-filter="wd">Web Systems</button>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card" data-category="genai">
-                    <div class="project-img">
-                        <img src="images/mockmate.jpg" alt="AI Mock Interview">
-                    </div>
-                    <div class="project-info">
-                        <h3>MockMate Neural Interface</h3>
-                        <p>Advanced agentic AI system that analyzes candidate resume to generate personalized interview protocols. Features real-time speech processing and comprehensive performance evaluation with detailed reporting systems.</p>
-                        <div class="project-tags">
-                            <span>Flask</span>
-                            <span>LangChain</span>
-                            <span>Vector DB</span>
-                            <span>Speech AI</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/devang30github/MockMate" class="project-link"><i class="fab fa-github"></i> Source Code</a>
-                            <a href="https://drive.google.com/file/d/14dHnElBL7g0ueTazeUjaITEPVZEQWCnI/view" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-category="genai">
-                    <div class="project-img">
-                        <img src="images/resume.jpg" alt="Resume Screening">
-                    </div>
-                    <div class="project-info">
-                        <h3>Resume Neural Screening</h3>
-                        <p>Intelligent document analysis system utilizing advanced NLP models and semantic embeddings for automated candidate ranking. Features multi-format processing, real-time comparison algorithms, and enhanced accuracy through machine learning optimization.</p>
-                        <div class="project-tags">
-                            <span>NLP</span>
-                            <span>Streamlit</span>
-                            <span>GROQ API</span>
-                            <span>Transformers</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/devang30github/RESUME-RANKING-SYSTEM" class="project-link"><i class="fab fa-github"></i> Source Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-category="ml">
-                    <div class="project-img">
-                        <img src="images/bird.jpg" alt="Bird Classification">
-                    </div>
-                    <div class="project-info">
-                        <h3>Avian Neural Classifier</h3>
-                        <p>Deep learning vision system for automated species identification across 200+ bird classes. Implements DenseNet121 architecture with advanced image preprocessing, achieving 75% accuracy through sophisticated neural network optimization and GPU acceleration.</p>
-                        <div class="project-tags">
-                            <span>PyTorch</span>
-                            <span>CNN</span>
-                            <span>Computer Vision</span>
-                            <span>Deep Learning</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/devang30github/Bird_Species_Classification" class="project-link"><i class="fab fa-github"></i> Source Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-category="wd">
-                    <div class="project-img">
-                        <img src="images/gym.jpg" alt="Gym Management">
-                    </div>
-                    <div class="project-info">
-                        <h3>GymPro Management System</h3>
-                        <p>Full-stack fitness management platform with intelligent workout planning, performance tracking, and administrative control systems. Features personalized routine generation, progress analytics, and comprehensive membership management with real-time data synchronization.</p>
-                        <div class="project-tags">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>MongoDB</span>
-                            <span>Express</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/devang30github/LocalGymWebsite" class="project-link"><i class="fab fa-github"></i> Source Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications" class="certifications">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Credentials</div>
+      <h2 class="section-title">Certifications</h2>
+    </div>
+    <div class="card reveal">
+      <div class="cert-list">
+        <div class="cert-item">
+          <div>
+            <h3 class="cert-name">Multi AI Agent Systems with crewAI</h3>
+            <div class="cert-platform">deeplearning.ai (Coursera)</div>
+            <span class="cert-date">Issued April 2025</span>
+          </div>
+          <a href="https://learn.deeplearning.ai/accomplishments/1cb369a7-2f65-4d2d-8024-0242d6d60db5?usp=sharing" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> View</a>
         </div>
-    </section>
-
-    <section id="certifications" class="certifications">
-        <div class="container">
-            <h2 class="section-title">Acquired Protocols</h2>
-            <div class="card">
-                <div class="certification-item">
-                    <h3 class="certification-name">Multi AI Agent Systems with crewAI</h3>
-                    <h4 class="certification-platform">deeplearning.ai (Coursera)</h4>
-                    <span class="certification-date">Issued: April 2025</span>
-                    <a href="https://learn.deeplearning.ai/accomplishments/1cb369a7-2f65-4d2d-8024-0242d6d60db5?usp=sharing" class="cert-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Credential
-                    </a>
-                </div>
-                <div class="certification-item">
-                    <h3 class="certification-name">Machine Learning Specialization </h3>
-                    <h4 class="certification-platform">Coursera (Stanford University)</h4>
-                    <span class="certification-date">Issued: January 2024</span>
-                    <a href="https://www.coursera.org/account/accomplishments/specialization/77PPRL422M6M" class="cert-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Credential
-                    </a>
-                </div>
-                <div class="certification-item">
-                    <h3 class="certification-name">Microsoft Certified: Azure Data Fundamentals</h3>
-                    <h4 class="certification-platform">Microsoft </h4>
-                    <span class="certification-date">Issued: January 2024</span>
-                    <a href="https://www.credly.com/badges/2ae53a4e-7555-47a2-ac17-9b7fe733d8ef/linked_in_profile" class="cert-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Credential
-                    </a>
-                </div>
-                <div class="certification-item">
-                    <h3 class="certification-name">100 Days of Code: Complete Python Pro Bootcamp for 2023</h3>
-                    <h4 class="certification-platform">Udemy</h4>
-                    <span class="certification-date">Issued: October 2023</span>
-                    <a href="https://www.udemy.com/certificate/UC-ab6b3315-8b0a-48cc-b435-bfd4e8e513ca/" class="cert-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Credential
-                    </a>
-                </div>
-            </div>
+        <div class="cert-item">
+          <div>
+            <h3 class="cert-name">Machine Learning Specialization</h3>
+            <div class="cert-platform">Coursera (Stanford University)</div>
+            <span class="cert-date">Issued January 2024</span>
+          </div>
+          <a href="https://www.coursera.org/account/accomplishments/specialization/77PPRL422M6M" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> View</a>
         </div>
-    </section>
-
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Initialize Communication</h2>
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h3 style="font-family: 'Orbitron', monospace; font-size: 1.5rem; color: var(--primary-color); margin-bottom: 1rem;">Establish Connection</h3>
-                <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.6;">Ready to collaborate on AI/ML projects? Let's connect and build the future of intelligent systems together.</p>
-            </div>
-            <div class="contact-details">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <strong>Neural Link</strong>
-                        <p>gawadedevang@gmail.com</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <strong>Location Node</strong>
-                        <p>Mumbai, India</p>
-                    </div>
-                </div>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/devang30github" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/devang-gawade-a82074262/" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.instagram.com/d3vang0/" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
+        <div class="cert-item">
+          <div>
+            <h3 class="cert-name">Microsoft Certified: Azure Data Fundamentals</h3>
+            <div class="cert-platform">Microsoft</div>
+            <span class="cert-date">Issued January 2024</span>
+          </div>
+          <a href="https://www.credly.com/badges/2ae53a4e-7555-47a2-ac17-9b7fe733d8ef/linked_in_profile" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> View</a>
         </div>
-    </section>
-
-    <footer style="background: var(--bg-darker); padding: 2rem 0; text-align: center; border-top: 1px solid var(--primary-color);">
-        <div class="container">
-            <p style="color: var(--text-secondary); font-family: 'Orbitron', monospace;">&copy; 2025 Devang Gawade Neural Systems. All rights reserved.</p>
+        <div class="cert-item">
+          <div>
+            <h3 class="cert-name">100 Days of Code: Complete Python Pro Bootcamp</h3>
+            <div class="cert-platform">Udemy</div>
+            <span class="cert-date">Issued October 2023</span>
+          </div>
+          <a href="https://www.udemy.com/certificate/UC-ab6b3315-8b0a-48cc-b435-bfd4e8e513ca/" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> View</a>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        function toggleMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
-        // Loading Animation
-        window.addEventListener('load', function() {
-            const loading = document.getElementById('loading');
-            setTimeout(() => {
-                loading.style.opacity = '0';
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                }, 500);
-            }, 2000);
-        });
+<section id="contact" class="contact">
+  <div class="container contact-inner">
+    <div class="eyebrow" style="justify-content:center;">Let's talk</div>
+    <h2 class="section-title">Get in touch</h2>
+    <p>Working on an AI/ML problem worth solving? I'd like to hear about it.</p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <strong>Email</strong>
+        <p>gawadedevang@gmail.com</p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <strong>Location</strong>
+        <p>Mumbai, India</p>
+      </div>
+    </div>
+    <div class="social-links">
+      <a href="https://github.com/devang30github" class="social-icon" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/devang-gawade-a82074262/" class="social-icon" title="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/d3vang0/" class="social-icon" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</section>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Devang Gawade. Built with intent, not templates.</p>
+  </div>
+</footer>
 
-        // Filter projects functionality
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const projects = document.querySelectorAll('.project-card');
+<script>
+function toggleMenu(){
+  document.querySelector('.nav-links').classList.toggle('active');
+}
 
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                const filter = button.getAttribute('data-filter');
-                
-                projects.forEach(project => {
-                    if (filter === 'all' || project.getAttribute('data-category') === filter) {
-                        project.style.display = 'block';
-                        project.style.animation = 'fadeInUp 0.5s ease-out';
-                    } else {
-                        project.style.display = 'none';
-                    }
-                });
-            });
-        });
+window.addEventListener('load', function(){
+  const loading = document.getElementById('loading');
+  setTimeout(() => {
+    loading.style.opacity = '0';
+    setTimeout(() => { loading.style.display = 'none'; }, 400);
+  }, 900);
+});
 
-        // Add scroll effect to header
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(10, 10, 10, 0.98)';
-                header.style.backdropFilter = 'blur(20px)';
-            } else {
-                header.style.background = 'rgba(10, 10, 10, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
-            }
-        });
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e){
+    const target = document.querySelector(this.getAttribute('href'));
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      document.querySelector('.nav-links').classList.remove('active');
+    }
+  });
+});
 
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+// project filter
+const filterButtons = document.querySelectorAll('.filter-btn');
+const projects = document.querySelectorAll('.project-card');
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    filterButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    const filter = button.getAttribute('data-filter');
+    projects.forEach(project => {
+      const show = filter === 'all' || project.getAttribute('data-category') === filter;
+      project.style.display = show ? 'block' : 'none';
+    });
+  });
+});
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+// scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Observe all cards and sections
-        document.querySelectorAll('.card, .skill-card, .project-card, .education-item, .certification-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+// signature retrieval demo loop
+(function(){
+  const chunks = Array.from(document.querySelectorAll('#rcChunks .rc-chunk'));
+  const answerEl = document.getElementById('rcAnswer');
+  const answerText = "Devang builds RAG pipelines, multi-agent systems, and fine-tuned LLM apps.";
+  let typing = false;
 
-        // Dynamic typing effect for the main title (This function is present in the original JS but not called, so it's kept as is)
-        function typeWriter(element, text, speed = 100) {
-            let i = 0;
-            element.innerHTML = '';
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            
-            type();
-        }
+  function typeAnswer(){
+    if(typing) return;
+    typing = true;
+    answerEl.textContent = '';
+    let i = 0;
+    const cursor = document.createElement('span');
+    cursor.className = 'rc-cursor';
+    function step(){
+      if(i <= answerText.length){
+        answerEl.textContent = answerText.slice(0, i);
+        answerEl.appendChild(cursor);
+        i++;
+        setTimeout(step, 22);
+      } else {
+        typing = false;
+      }
+    }
+    step();
+  }
 
-        // Random circuit line generator
-        function createCircuitLines() {
-            const container = document.querySelector('.circuit-lines');
-            const lines = 6;
-            
-            for (let i = 0; i < lines; i++) {
-                const line = document.createElement('div');
-                line.className = Math.random() > 0.5 ? 'circuit-line horizontal' : 'circuit-line vertical';
-                line.style.top = Math.random() * 80 + '%';
-                line.style.left = Math.random() * 80 + '%';
-                line.style.animationDelay = Math.random() * 2 + 's';
-                container.appendChild(line);
-            }
-        }
+  function runCycle(){
+    chunks.forEach(c => c.classList.remove('active'));
+    // highlight best-scoring chunk
+    let best = chunks[0];
+    chunks.forEach(c => { if(parseFloat(c.dataset.score) > parseFloat(best.dataset.score)) best = c; });
+    setTimeout(() => {
+      best.classList.add('active');
+      typeAnswer();
+    }, 500);
+  }
 
-        // Initialize circuit lines
-        createCircuitLines();
-
-        // Particle system for background
-        function createParticles() {
-            const particleCount = 50;
-            const particles = [];
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.width = '2px';
-                particle.style.height = '2px';
-                particle.style.background = 'var(--primary-color)';
-                particle.style.borderRadius = '50%';
-                particle.style.opacity = '0.5';
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '-1';
-                
-                document.body.appendChild(particle);
-                particles.push({
-                    element: particle,
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5
-                });
-            }
-            
-            function animateParticles() {
-                particles.forEach(particle => {
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                    
-                    if (particle.x > window.innerWidth) particle.x = 0;
-                    if (particle.x < 0) particle.x = window.innerWidth;
-                    if (particle.y > window.innerHeight) particle.y = 0;
-                    if (particle.y < 0) particle.y = window.innerHeight;
-                    
-                    particle.element.style.left = particle.x + 'px';
-                    particle.element.style.top = particle.y + 'px';
-                });
-                
-                requestAnimationFrame(animateParticles);
-            }
-            
-            animateParticles();
-        }
-
-        // Initialize particles
-        createParticles();
-
-        // Easter egg: Konami code
-        let konamiCode = [];
-        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up, Up, Down, Down, Left, Right, Left, Right, B, A
-        
-        document.addEventListener('keydown', (e) => {
-            konamiCode.push(e.keyCode);
-            if (konamiCode.length > konamiSequence.length) {
-                konamiCode.shift();
-            }
-            
-            if (konamiCode.join(',') === konamiSequence.join(',')) {
-                document.body.style.filter = 'hue-rotate(180deg)';
-                setTimeout(() => {
-                    document.body.style.filter = 'none';
-                }, 3000);
-                konamiCode = [];
-            }
-        });
-    </script>
+  runCycle();
+  setInterval(runCycle, 6000);
+})();
+</script>
 </body>
 </html>

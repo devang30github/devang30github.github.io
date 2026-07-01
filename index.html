@@ -358,6 +358,8 @@ footer p{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);}
   section{padding:70px 0;}
   .stat-row{gap:2rem;}
   .contact-details{gap:2rem;}
+  .about-grid{grid-template-columns:1fr !important;}
+  .about-grid img{width:100px;height:100px;}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
@@ -438,14 +440,20 @@ footer p{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);}
       <div class="eyebrow">Field notes</div>
       <h2 class="section-title">About</h2>
     </div>
+
     <div class="card reveal">
-      <p class="about-lede">
-        I'm an <strong>AI/ML engineer</strong> who likes making messy, unstructured data behave. My work spans <strong>generative AI</strong>, <strong>retrieval-augmented generation</strong>, and applied deep learning — with real implementations in voice-based AI interfaces, intelligent resume screening, and workflow automation. I care about systems that are fast, explainable, and actually ship.
-      </p>
-      <div class="stat-row">
-        <div><div class="stat-num">1+</div><div class="stat-label">Years Active</div></div>
-        <div><div class="stat-num">10+</div><div class="stat-label">Systems Shipped</div></div>
-        <div><div class="stat-num">5+</div><div class="stat-label">Certifications</div></div>
+      <div class="about-grid" style="display:grid;grid-template-columns:160px 1fr;gap:2rem;align-items:start;">
+        <img src="images/devang_gpt.png" alt="Devang Gawade" style="width:160px;height:160px;object-fit:cover;border-radius:10px;border:1px solid var(--line);">
+        <div>
+          <p class="about-lede">
+            I'm an <strong>AI/ML engineer</strong> who likes making messy, unstructured data behave. My work spans <strong>generative AI</strong>, <strong>retrieval-augmented generation</strong>, and applied deep learning — with real implementations in voice-based AI interfaces, intelligent resume screening, and workflow automation. I care about systems that are fast, explainable, and actually ship.
+          </p>
+          <div class="stat-row">
+            <div><div class="stat-num">1+</div><div class="stat-label">Years Active</div></div>
+            <div><div class="stat-num">10+</div><div class="stat-label">Systems Shipped</div></div>
+            <div><div class="stat-num">5+</div><div class="stat-label">Certifications</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
